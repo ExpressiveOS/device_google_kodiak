@@ -25,7 +25,9 @@ PRODUCT_PACKAGES += \
     ImsStack \
     Iwlan \
     PixelImsMediaServiceOverlayKodiak \
-    TeleServiceOverlayKodiak
+    PixelWifiOverlay2026Kodiak \
+    TeleServiceOverlayKodiak \
+    UpdaterOverlayKodiak
 
 # HIDL: shipping API 37 drops these, but stock kodiak's system still ships
 # them (the stock vendor and Pixel services use HIDL), and vintffm requires
@@ -95,13 +97,6 @@ PRODUCT_BUILD_PVMFW_IMAGE := true
 # Set KODIAK_DEV_ADB_KEYS=/path/to/adbkey.pub in the build environment.
 ifneq ($(KODIAK_DEV_ADB_KEYS),)
 PRODUCT_ADB_KEYS := $(KODIAK_DEV_ADB_KEYS)
-endif
-
-# Personal builds only: a maintainer's private extras, if present. Off unless
-# KODIAK_PERSONAL=true is set in the build environment, so official builds
-# never pick them up.
-ifeq ($(KODIAK_PERSONAL),true)
-$(call inherit-product-if-exists, device/google/kodiak-personal/personal.mk)
 endif
 
 # Adaptive Connectivity Services (SCONE) and Google Fi (Tycho): vendor/gms

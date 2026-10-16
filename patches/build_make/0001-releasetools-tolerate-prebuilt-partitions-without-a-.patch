@@ -1,5 +1,5 @@
 From ff2b6e91873f026cd2b4ea5f3801811423e0d838 Mon Sep 17 00:00:00 2001
-From: Daryl Denson <9751141+denson9874@users.noreply.github.com>
+From: Daryl Denson <daryldenson0405@gmail.com>
 Date: Sat, 10 Oct 2026 14:48:23 +0200
 Subject: [PATCH] releasetools: tolerate prebuilt partitions without a
  directory
