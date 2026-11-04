@@ -7,7 +7,7 @@
 #
 #   extract-images.sh <kodiak-*-factory-*.zip | image-kodiak-*.zip>
 #
-# Run from anywhere inside the Evolution X source tree. Replaces
+# Run from anywhere inside the ExpressiveOS source tree. Replaces
 # vendor/google/kodiak-images (except its .git). Its contents are Google's proprietary
 # images: never push that directory to a public remote.
 #
