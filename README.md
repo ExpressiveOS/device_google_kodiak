@@ -59,6 +59,3 @@ The manifest doesn't sync the two folders of Google's files this tree needs. The
 
 The kit builds the `user` variant. `userdebug` mounts debugfs early, which the stock vendor
 policy denies, and the display driver can panic on boot.
-
-`patches/` and `apply-patches.sh` come from before ExpressiveOS had its own sources; the kit
-doesn't run them.
