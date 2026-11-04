@@ -1,4 +1,4 @@
-# Pixel 11 Pro XL (kodiak) for Evolution X 17
+# Pixel 11 Pro XL (kodiak) for ExpressiveOS
 
 Device tree for Google Pixel 11 Pro XL (`kodiak`, Tensor G6 `malibu`, GKI
 6.12), built from the stock factory image `CD1A.261005.003`.
@@ -10,7 +10,7 @@ Tensor trees (`device/google/laguna`, `device/google/muzel`).
 
 | Image | Source |
 | --- | --- |
-| system, system_ext, product | built (Evolution X) |
+| system, system_ext, product | built (ExpressiveOS) |
 | init_boot (generic ramdisk) | built |
 | vendor_boot (first-stage fstab, recovery) | built |
 | vbmeta, vbmeta_system, vbmeta_vendor | built (verification disabled: `--flags 3`) |
@@ -30,27 +30,32 @@ vendor stays stock for now.
 - Sultan Alsawaf for CASS and Simple LMK.
 
 
-## Setup
+## Building
+
+ExpressiveOS builds this tree with its build kit ([`expressiveos-cheetah/`](https://github.com/denson9874/Denson9874-Device-Central/tree/main/expressiveos-cheetah)),
+in the source tree ExpressiveOS's own manifest syncs (`~/expressiveos`, set up by the kit's
+`setup.sh`). The kit's `devices/kodiak.conf` holds what's particular to this phone: the lunch
+target `lineage_kodiak-cp2a-user`, the model, the release folders, and where its kernel, vendor and
+firmware come from.
 
 ```bash
-# inside the Evolution X (cnb) tree
-git clone <this repo> device/google/kodiak
-device/google/kodiak/apply-patches.sh   # patches/: build/make (prebuilt partitions), frameworks/base (AOD brightness, favorites call lights, charging screensaver), vendor/gms (Dreamliner)
-
-# Stock factory image CD1A.261005.003 for kodiak, from https://developers.google.com/android/images
-device/google/kodiak/extract-images.sh <kodiak-cd1a.261005.003-factory-*.zip>   # -> vendor/google/kodiak-images
-git clone https://github.com/denson9874/vendor_google_kodiak vendor/google/kodiak   # or: ./extract-files.py <dump>
-
-. build/envsetup.sh
-lunch lineage_kodiak-cp2a-user
-m evolution
+EOS_DEVICE=kodiak ~/expressiveos-cheetah/tools/eos-images.sh   # the build
+EOS_DEVICE=kodiak ~/expressiveos-cheetah/tools/eos-pack.sh     # the fastboot zip
 ```
 
-Build the `user` variant. `userdebug` mounts debugfs early, which the stock vendor
-policy denies, and the display driver can panic on boot.
+From the runner, that's the action `expressiveos-build` with query `device=kodiak`.
 
-`vendor/google/kodiak` holds the proprietary blobs from `proprietary-files.txt`:
-[vendor_google_kodiak](https://github.com/denson9874/vendor_google_kodiak), or regenerate it
-with `extract-files.py`. `vendor/google/kodiak-images` holds whole stock partition images
-(vendor, vendor_dlkm, system_dlkm, boot, dtbo, firmware). It isn't published; generate it from
-Google's factory image with `extract-images.sh`.
+The manifest doesn't sync the two folders of Google's files this tree needs. The kit's
+`prepare.sh` puts them in place before each build:
+
+- `vendor/google/kodiak-images`, whole stock partition images (vendor, vendor_dlkm,
+  system_dlkm, boot, dtbo, firmware), made by this tree's `extract-images.sh` from the newest
+  stock image zip on the build server (`~/android-dt/firmware/image-kodiak-*.zip`, from
+  [Google's factory image](https://developers.google.com/android/images)), again only when
+  that zip changes. It isn't published.
+- `vendor/google/kodiak`, the proprietary blobs from `proprietary-files.txt`:
+  [vendor_google_kodiak](https://github.com/denson9874/vendor_google_kodiak), or regenerate it
+  with `./extract-files.py <dump>`. The build server keeps its own copy.
+
+The kit builds the `user` variant. `userdebug` mounts debugfs early, which the stock vendor
+policy denies, and the display driver can panic on boot.
