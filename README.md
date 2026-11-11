@@ -1,7 +1,9 @@
 # Pixel 11 Pro XL (kodiak) for ExpressiveOS
 
 Device tree for Google Pixel 11 Pro XL (`kodiak`, Tensor G6 `malibu`, GKI
-6.12), built from the stock factory image `CD1A.261005.003`.
+6.12). Vendor, kernel and firmware come from the stock factory image
+`CP4A.261105.040.D1` (Android 17 QPR2, November 2026); the product and system_ext
+blobs in proprietary-files.txt are still the `CD1A.261005.003` ones.
 
 Started from `aospdtgen 1.2.1` output, then restructured after LineageOS's
 Tensor trees (`device/google/laguna`, `device/google/muzel`).
