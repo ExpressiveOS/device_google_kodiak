@@ -46,6 +46,14 @@ grep -q '^require board=.*kodiak' <(unzip -p "$image_zip" android-info.txt) ||
     { echo "not a kodiak image: $zip" >&2; exit 1; }
 build_id="$(basename "$image_zip" .zip | sed 's/^image-kodiak-//')"
 
+# The tree is tied to one stock release: BOOT_SECURITY_PATCH and the kernel cmdline in
+# BoardConfig.mk and the fingerprints in lineage_kodiak.mk describe these images. A build that
+# pairs them with another release's images boots with the wrong patch level (KeyMint treats a
+# lower one as a downgrade and existing keystore keys stop working). Change all of them together.
+STOCK_BUILD=cp4a.261105.040.d1
+[[ "$build_id" == "$STOCK_BUILD" ]] ||
+    { echo "image is $build_id, but this tree expects $STOCK_BUILD: move BoardConfig.mk, lineage_kodiak.mk and STOCK_BUILD here first" >&2; exit 1; }
+
 # Keep a local .git (if any) so regenerations show up as diffs
 mkdir -p "$OUT"
 find "$OUT" -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
