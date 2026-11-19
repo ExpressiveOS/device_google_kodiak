@@ -4,4 +4,4 @@
 #
 
 PRODUCT_MAKEFILES := \
-    $(LOCAL_DIR)/lineage_kodiak.mk
+    $(LOCAL_DIR)/eos_kodiak.mk
