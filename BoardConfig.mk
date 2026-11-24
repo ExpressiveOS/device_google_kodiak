@@ -241,6 +241,11 @@ BOARD_AVB_MAKE_VBMETA_IMAGE_ARGS += \
     --prop com.android.build.system.os_version:$(PLATFORM_VERSION_LAST_STABLE) \
     --prop com.android.build.system.security_patch:$(PLATFORM_SECURITY_PATCH)
 
+ifneq ($(wildcard $(IMAGES_PATH)/radio/vendor_kernel_boot.img),)
+BOARD_AVB_MAKE_VBMETA_IMAGE_ARGS += \
+    --include_descriptors_from_image $(IMAGES_PATH)/radio/vendor_kernel_boot.img
+endif
+
 include $(IMAGES_PATH)/BoardConfigImages.mk
 -include vendor/google/kodiak/BoardConfigVendor.mk
 
